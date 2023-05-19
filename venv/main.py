@@ -9,7 +9,9 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('welcome to mars team bot')
         
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('list of commands:')
+    await update.message.reply_text('list of commands: ')
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text('目前可用关键词: BNB ai "ai tools" ai报告 收支 预算 会议 运营')
         
 #response
 
@@ -59,3 +61,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f'Update {update} caused error {context,error}')
+    
+if __name__ == '__main__':
+    
+    print('Bot started')
+    app = Application.builder().token(TOKEN).build()
+    
+#commands
+    app.add_handler(CommandHandler('start', start_command))
+    app.add_handler(CommandHandler('help', help_command))
+    
+    #message
+    app.add_handler(MessageHandler(filter.TEXT,handle_message))
+    
+    #error
+    app.add_error_handler(error)
+    
+    #polling
+    print('Bot polling')
+    app.run_polling(poll_interval=3)
